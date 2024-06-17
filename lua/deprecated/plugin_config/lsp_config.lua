@@ -15,7 +15,6 @@ require("mason").setup()
 require("mason-lspconfig").setup({ ensure_installed = language_servers })
 
 local lspconfig = require("lspconfig")
-
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 capabilities.textDocument.inlayHint = {
@@ -64,7 +63,6 @@ lspconfig.rust_analyzer.setup({
 })
 
 --lsp keybindings
-
 --quickfix
 vim.keymap.set("n", "<leader>fq", vim.lsp.buf.code_action, {})
 --show definition

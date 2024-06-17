@@ -21,11 +21,8 @@ vim.api.nvim_set_keymap('n', '<C-n>', '<C-W>v', { noremap = true, silent = true 
 vim.api.nvim_set_keymap('n', '<C-c>', ':only<CR>', { noremap = true, silent = true })
 
 -- Delete word backwards in insert mode
-
-
 -- Exit terminal mode with Esc
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n','<C-j>',':bp<CR>', { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n','<C-k>',':bn<CR>', { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n','<C-w>',':bd<CR>', { noremap = true, silent = true})
-
