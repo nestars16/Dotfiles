@@ -23,3 +23,6 @@ vim.opt.relativenumber = true
 vim.opt.showmode = false
 vim.opt.inccommand = "split"
 vim.opt.hlsearch = true
+vim.opt.ttyfast = true
+vim.opt.lazyredraw = true
+vim.opt.timeoutlen = 200

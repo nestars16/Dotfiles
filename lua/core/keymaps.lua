@@ -26,3 +26,4 @@ vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = 
 vim.api.nvim_set_keymap("n", "<C-j>", ":bp<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-k>", ":bn<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-w>", ":bd<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "<C-D>", " X<Esc>lbce", { noremap = true, silent = true })
