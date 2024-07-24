@@ -32,6 +32,12 @@ return { -- Autoformat
 			html = { "prettierd" },
 			css = { "prettierd" },
 			json = { "prettierd" },
+			python = {
+				"autopep8",
+			},
+			go = { "gopls" },
+			gdscript = { "gdtoolkit" },
+			gd = { "gdtoolkit" },
 		},
 	},
 }
