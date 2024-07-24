@@ -29,5 +29,5 @@ vim.opt.timeoutlen = 2000
 
 if vim.g.neovide then
 	vim.opt.guifont = "Iosevka:h12" -- Set GUI font
-	vim.g.neovide_transparency = 0.8
+	vim.g.neovide_transparency = 0.5
 end
