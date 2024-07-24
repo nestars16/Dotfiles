@@ -25,4 +25,9 @@ vim.opt.inccommand = "split"
 vim.opt.hlsearch = true
 vim.opt.ttyfast = true
 vim.opt.lazyredraw = true
-vim.opt.timeoutlen = 500
+vim.opt.timeoutlen = 2000
+
+if vim.g.neovide then
+	vim.opt.guifont = "Iosevka:h12" -- Set GUI font
+	vim.g.neovide_transparency = 0.8
+end
