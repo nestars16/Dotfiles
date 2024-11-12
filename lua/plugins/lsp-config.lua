@@ -4,6 +4,7 @@ local language_servers = {
 	"cssls",
 	"html",
 	"lua_ls",
+	"jdtls",
 	"pyright",
 	"rust_analyzer",
 	"tailwindcss",
@@ -19,7 +20,6 @@ return {
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
-
 		lazy = false,
 		dependencies = { "williamboman/mason.nvim" },
 		config = function()
@@ -56,6 +56,16 @@ return {
 					capabilities = capabilities,
 				})
 			end
+
+			require("lspconfig")["hls"].setup({
+				filetypes = { "haskell", "lhaskell", "cabal" },
+				settings = {
+					haskell = {
+						cabalFormattingProvider = "cabalfmt",
+						formattingProvider = "",
+					},
+				},
+			})
 
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
