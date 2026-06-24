@@ -31,17 +31,12 @@ if vim.g.neovide then
 	vim.g.neovide_transparency = 0.5
 end
 
-vim.g.clipboard = {
-	name = "win32yank-wsl",
-	copy = {
-		["+"] = { "win32yank.exe", "-i", "--crlf" },
-		["*"] = { "win32yank.exe", "-i", "--crlf" },
-	},
-	paste = {
-		["+"] = { "win32yank.exe", "-o", "--lf" },
-		["*"] = { "win32yank.exe", "-o", "--lf" },
-	},
-	cache_enabled = 0,
-}
+local is_ssh = vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil
+
+if is_ssh then
+	vim.g.clipboard = "osc52"
+end
+
+vim.opt.clipboard = "unnamedplus"
 
 vim.opt.clipboard = "unnamedplus"
