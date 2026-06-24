@@ -4,13 +4,13 @@ return {
 		build = ":TSUpdate",
 		config = function()
 			local config = require("nvim-treesitter.configs")
-
 			config.setup({
 				-- A list of parser names, or "all" (the five listed parsers should always be installed)
 				ensure_installed = {
 					"c",
 					"lua",
 					"vim",
+					"php",
 					"vimdoc",
 					"query",
 					"rust",
@@ -41,6 +41,22 @@ return {
 						scope_incremental = "<leader>ssi",
 						node_decremental = "<M-space>sd", -- Alt+space, might have to disable the Ubuntu hot key for this
 					},
+				},
+			})
+
+			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
+			parser_config.blade = {
+				install_info = {
+					url = "https://github.com/EmranMR/tree-sitter-blade",
+					files = { "src/parser.c" },
+					branch = "main",
+				},
+				filetype = "blade",
+			}
+			vim.filetype.add({
+				pattern = {
+					[".*%.blade%.php"] = "blade",
 				},
 			})
 		end,

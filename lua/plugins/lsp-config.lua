@@ -1,13 +1,15 @@
 local language_servers = {
-	"tsserver",
+	"ts_ls",
 	"clangd",
 	"cssls",
 	"html",
 	"lua_ls",
 	"jdtls",
+	"astro",
 	"pyright",
 	"rust_analyzer",
 	"tailwindcss",
+	"phpactor",
 }
 
 return {
@@ -37,10 +39,8 @@ return {
 		},
 
 		config = function()
-			local lspconfig = require("lspconfig")
-
 			local capabilities =
-				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+					require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 			local builtin = require("telescope.builtin")
 			capabilities.textDocument.inlayHint = {
@@ -52,20 +52,16 @@ return {
 			}
 
 			for _, lsp in ipairs(language_servers) do
-				lspconfig[lsp].setup({
+				vim.lsp.config(lsp, {
 					capabilities = capabilities,
 				})
 			end
 
-			require("lspconfig")["hls"].setup({
-				filetypes = { "haskell", "lhaskell", "cabal" },
-				settings = {
-					haskell = {
-						cabalFormattingProvider = "cabalfmt",
-						formattingProvider = "",
-					},
-				},
+			vim.lsp.config("astro", {
+				filetypes = { "astro" },
+				capabilities = capabilities,
 			})
+
 
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
@@ -84,12 +80,12 @@ return {
 			vim.keymap.set("n", "<leader>sw", builtin.lsp_dynamic_workspace_symbols, {})
 
 			vim.diagnostic.config({
-				signs = true, -- Keep the signs in the gutter
-				underline = true, -- Keep the underline for errors
+				signs = true,         -- Keep the signs in the gutter
+				underline = true,     -- Keep the underline for errors
 				update_in_insert = false, -- Update diagnostics only when leaving insert mode
 				severity_sort = true, -- Sort diagnostics by severity
 				float = {
-					source = "always", -- Show source in diagnostics float window
+					source = "always",  -- Show source in diagnostics float window
 				},
 			})
 
@@ -105,8 +101,9 @@ return {
 			end
 
 			vim.keymap.set("n", "<leader>ds", open_diagnostic_float, {})
+			--[[
 
-			local gdscript_config = {
+			 local gdscript_config = {
 				capabilities = capabilities,
 				settings = {},
 			}
@@ -117,6 +114,7 @@ return {
 			end
 
 			require("lspconfig").gdscript.setup(gdscript_config)
+			]]
 		end,
 	},
 }

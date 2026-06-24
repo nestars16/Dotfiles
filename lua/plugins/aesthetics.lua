@@ -1,4 +1,3 @@
--- 	vim.cmd([[hi Normal guibg=NONE ctermbg=NONE]])
 return {
 	"https://github.com/folke/tokyonight.nvim",
 	"https://github.com/romgrk/barbar.nvim",
@@ -13,22 +12,12 @@ return {
 	{
 		"hachy/eva01.vim",
 		branch = "main",
-		-- config = function()
-		-- 	vim.cmd([[ colorscheme eva01 ]]) -- Set the colorscheme
-		-- end,
-	},
-	"projekt0n/github-nvim-theme",
-	"catppuccin/nvim",
-	{
-		"rose-pine/neovim",
-		name = "rose-pine",
 	},
 	{
-		"xero/miasma.nvim",
-		lazy = false,
-		priority = 1000,
+		"projekt0n/github-nvim-theme",
+
 		config = function()
-			vim.cmd("colorscheme miasma")
+			vim.cmd("colorscheme github_dark")
 
 			-- Make the text background transparent for main editing and additional elements
 			vim.cmd([[
@@ -78,5 +67,15 @@ return {
   highlight LspDiagnosticsVirtualTextHint guibg=none
 ]])
 		end,
+	},
+	"catppuccin/nvim",
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+	},
+	{
+		"xero/miasma.nvim",
+		lazy = false,
+		priority = 1000,
 	},
 }
