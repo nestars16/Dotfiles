@@ -31,12 +31,25 @@ if vim.g.neovide then
 	vim.g.neovide_transparency = 0.5
 end
 
-local is_ssh = vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil
+local is_ssh = vim.env.SSH_TTY ~= nil
+		or vim.env.SSH_CONNECTION ~= nil
 
-if is_ssh then
+if vim.env.TMUX then
+	vim.g.clipboard = "tmux"
+	vim.opt.clipboard = "unnamedplus"
+elseif is_ssh then
 	vim.g.clipboard = "osc52"
+	vim.opt.clipboard = ""
+
+	vim.keymap.set({ "n", "x" }, "y", '"+y', {
+		noremap = true,
+		desc = "Yank to terminal clipboard",
+	})
+
+	vim.keymap.set("n", "Y", '"+Y', {
+		noremap = true,
+		desc = "Yank line to terminal clipboard",
+	})
+else
+	vim.opt.clipboard = "unnamedplus"
 end
-
-vim.opt.clipboard = "unnamedplus"
-
-vim.opt.clipboard = "unnamedplus"
