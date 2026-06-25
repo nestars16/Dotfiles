@@ -47,19 +47,26 @@ if is_wsl and vim.fn.executable("win32yank.exe") == 1 then
 		},
 		cache_enabled = 0,
 	}
+	vim.opt.clipboard = "unnamedplus"
 elseif is_ssh then
-	local osc52 = require("vim.ui.clipboard.osc52")
+	if vim.fn.executable("lemonade") == 1 then
+		vim.g.clipboard = "lemonade"
+	else
+		local osc52 = require("vim.ui.clipboard.osc52")
 
-	vim.g.clipboard = {
-		name = "osc52",
-		copy = {
-			["+"] = osc52.copy("+"),
-			["*"] = osc52.copy("*"),
-		},
-		paste = {
-			["+"] = osc52.paste("+"),
-			["*"] = osc52.paste("*"),
-		},
-	}
+		vim.g.clipboard = {
+			name = "osc52",
+			copy = {
+				["+"] = osc52.copy("+"),
+				["*"] = osc52.copy("*"),
+			},
+			paste = {
+				["+"] = osc52.paste("+"),
+				["*"] = osc52.paste("*"),
+			},
+		}
+	end
+	vim.opt.clipboard = "unnamedplus"
+else
+	vim.opt.clipboard = "unnamedplus"
 end
-vim.opt.clipboard = "unnamedplus"
