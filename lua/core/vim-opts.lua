@@ -31,25 +31,35 @@ if vim.g.neovide then
 	vim.g.neovide_transparency = 0.5
 end
 
-local is_ssh = vim.env.SSH_TTY ~= nil
-		or vim.env.SSH_CONNECTION ~= nil
+local is_wsl = vim.fn.has("wsl") == 1 or vim.env.WSL_DISTRO_NAME ~= nil
+local is_ssh = vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil
 
-if vim.env.TMUX then
-	vim.g.clipboard = "tmux"
-	vim.opt.clipboard = "unnamedplus"
+if is_wsl and vim.fn.executable("win32yank.exe") == 1 then
+	vim.g.clipboard = {
+		name = "win32yank-wsl",
+		copy = {
+			["+"] = { "win32yank.exe", "-i", "--crlf" },
+			["*"] = { "win32yank.exe", "-i", "--crlf" },
+		},
+		paste = {
+			["+"] = { "win32yank.exe", "-o", "--lf" },
+			["*"] = { "win32yank.exe", "-o", "--lf" },
+		},
+		cache_enabled = 0,
+	}
 elseif is_ssh then
-	vim.g.clipboard = "osc52"
-	vim.opt.clipboard = ""
+	local osc52 = require("vim.ui.clipboard.osc52")
 
-	vim.keymap.set({ "n", "x" }, "y", '"+y', {
-		noremap = true,
-		desc = "Yank to terminal clipboard",
-	})
-
-	vim.keymap.set("n", "Y", '"+Y', {
-		noremap = true,
-		desc = "Yank line to terminal clipboard",
-	})
-else
-	vim.opt.clipboard = "unnamedplus"
+	vim.g.clipboard = {
+		name = "osc52",
+		copy = {
+			["+"] = osc52.copy("+"),
+			["*"] = osc52.copy("*"),
+		},
+		paste = {
+			["+"] = osc52.paste("+"),
+			["*"] = osc52.paste("*"),
+		},
+	}
 end
+vim.opt.clipboard = "unnamedplus"
