@@ -1,63 +1,38 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		lazy = false,
 		build = ":TSUpdate",
 		config = function()
-			local config = require("nvim-treesitter.configs")
-			config.setup({
-				-- A list of parser names, or "all" (the five listed parsers should always be installed)
-				ensure_installed = {
-					"c",
-					"lua",
-					"vim",
-					"php",
-					"vimdoc",
-					"query",
-					"rust",
-					"cpp",
-					"go",
-					"typescript",
-					"html",
-					"css",
-					"javascript",
-					"gdscript",
-					"python",
-				},
-
-				-- Install parsers synchronously (only applied to `ensure_installed`)
-				sync_install = false,
-				ignore_install = {},
-				modules = {},
-				-- Automatically install missing parsers when entering buffer
-				-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-				auto_install = false,
-				highlight = { enable = true },
-				indent = { enable = true },
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<leader>s",
-						node_incremental = "<leader>sni",
-						scope_incremental = "<leader>ssi",
-						node_decremental = "<M-space>sd", -- Alt+space, might have to disable the Ubuntu hot key for this
-					},
-				},
-			})
-
-			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-
-			parser_config.blade = {
-				install_info = {
-					url = "https://github.com/EmranMR/tree-sitter-blade",
-					files = { "src/parser.c" },
-					branch = "main",
-				},
-				filetype = "blade",
+			local treesitter = require("nvim-treesitter")
+			local languages = {
+				"c",
+				"lua",
+				"vim",
+				"php",
+				"vimdoc",
+				"query",
+				"rust",
+				"cpp",
+				"go",
+				"typescript",
+				"html",
+				"css",
+				"javascript",
+				"gdscript",
+				"python",
 			}
-			vim.filetype.add({
-				pattern = {
-					[".*%.blade%.php"] = "blade",
-				},
+
+			treesitter.setup()
+			treesitter.install(languages)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = languages,
+				callback = function()
+					vim.treesitter.start()
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
 			})
 		end,
 	},
